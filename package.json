@@ -1,22 +1,31 @@
 {
   "publisher": "lscyane",
-  "name": "paste-image-as-base64",
-  "displayName": "Paste Image as Base64",
+  "name": "vscode-adoc-util",
+  "displayName": "Asciidoc Base64 Image Utility",
   "description": "",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.70.0"
   },
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "asciidoc"
+  ],
   "activationEvents": [],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
-      "command": "extension.pasteImageAsBase64",
-      "title": "Paste Image as Base64"
-    }]
+    "commands": [
+      {
+        "command": "extension.pasteImageAsBase64",
+        "title": "Paste Image Path as Base64"
+      },
+      {
+        "command": "extension.convertImageAsBase64",
+        "title": "Convert Asciidoc Image block as Base64"
+      }
+    ]
   },
   "scripts": {
     "lint": "eslint .",
@@ -34,6 +43,7 @@
     "typescript": "^5.1.3",
     "@vscode/test-electron": "^2.3.2"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/lscyane/VSCodeAdocUtil.git"
