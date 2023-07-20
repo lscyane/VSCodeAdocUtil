@@ -8,7 +8,7 @@ const path = require('path');
 function insertEncodedImage(image,ext) {
 	let base64Image = image.toString('base64');
 	let encodedImage = `data:image/${ext.slice(1)};base64,${base64Image}`;
-	let adocimage = `image:${encodedImage}[]`;
+	let adocimage = `image::${encodedImage}[]`;
 
 	// ユーザーが選択した場所にエンコードされた画像を挿入する
 	vscode.window.activeTextEditor.edit(editBuilder => {
