@@ -5,6 +5,37 @@ const fs = require('fs');
 const path = require('path');
 
 
+function decodeBase64ImageAndSave(encodedImage) {
+    // Base64 エンコードされた画像データをデコードします
+    let match = encodedImage.match(/^image::data:image\/(png|jpe?g);base64,(.+)$/);
+    if (match) {
+        let ext = match[1];
+        let data = match[2];
+        let buffer = Buffer.from(data, 'base64');
+
+        // 保存ダイアログを表示します
+        vscode.window.showSaveDialog({
+            defaultUri: vscode.Uri.file(`image.${ext}`),
+            filters: {
+                'Images': [ext]
+            }
+        }).then(fileUri => {
+            if (fileUri) {
+                fs.writeFile(fileUri.fsPath, buffer, function(error) {
+                    if (error) {
+                        vscode.window.showErrorMessage(`Failed to save the image: ${error.message}`);
+                    } else {
+                        vscode.window.showInformationMessage(`The image has been saved to ${fileUri.fsPath}`);
+                    }
+                });
+            }
+        });
+    } else {
+        vscode.window.showErrorMessage('The selected text is not a valid Base64 encoded image');
+    }
+}
+
+
 function insertEncodedImage(image,ext, macro) {
 	let base64Image = image.toString('base64');
 	let encodedImage = `data:image/${ext.slice(1)};base64,${base64Image}`;
@@ -88,6 +119,21 @@ function activate(context) {
 		}
 	});
     context.subscriptions.push(disposable);
+
+	// 画像をデコードして保存するコマンドを追加します
+	disposable = vscode.commands.registerCommand('extension.decodeImageAndSave', function () {
+		let editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			vscode.window.showErrorMessage('No open text editor');
+			return;
+		}
+
+		let selection = editor.selection;
+		let selectedText = editor.document.getText(selection);
+
+		decodeBase64ImageAndSave(selectedText);
+	});
+	context.subscriptions.push(disposable);
 }
 
 

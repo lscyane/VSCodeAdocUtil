@@ -3,7 +3,7 @@
   "name": "vscode-adoc-util",
   "displayName": "Asciidoc Base64 Image Utility",
   "description": "",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.70.0"
   },
@@ -24,6 +24,10 @@
       {
         "command": "extension.convertImageAsBase64",
         "title": "Convert Asciidoc Image block as Base64"
+      },
+      {
+        "command": "extension.decodeImageAndSave",
+        "title": "Decode Base64 Adoc Image to File"
       }
     ]
   },
